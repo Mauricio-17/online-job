@@ -46,11 +46,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // this is for mediumblob datatype to store the pdf files
-    @Lob
-    @Column(name = "cv_data", length = 10000000)
-    private byte[] cvData;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(name = "updated_at")
