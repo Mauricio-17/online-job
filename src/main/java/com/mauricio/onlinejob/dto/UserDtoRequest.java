@@ -1,11 +1,14 @@
 package com.mauricio.onlinejob.dto;
 
-public record UserDto(
-    Long id,
+import lombok.Getter;
+import lombok.Setter;
+
+public record UserDtoRequest(
     String name,
     String lastName,
     String birthday,
     String username,
+    String password,
     String createdAt,
     String updatedAt,
     Long userTypeId

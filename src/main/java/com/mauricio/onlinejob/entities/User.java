@@ -7,9 +7,14 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @ToString
 @NoArgsConstructor
@@ -19,8 +24,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
-
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +59,34 @@ public class User {
     @JoinColumn(name = "user_type_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private UserType userType;
+
+    @Override public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(userType.getName()));
+    }
+
+    @Override
+    public String getPassword(){
+        return this.password;
+    }
+
+    @Override
+    public String getUsername(){
+        return this.username;
+    }
+
+    @Override public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override public boolean isEnabled() {
+        return true;
+    }
 }

@@ -1,6 +1,6 @@
 package com.mauricio.onlinejob.controllers;
 
-import com.mauricio.onlinejob.dto.UserDto;
+import com.mauricio.onlinejob.dto.UserDtoRequest;
 import com.mauricio.onlinejob.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +19,32 @@ public class UserController {
 
 
     @GetMapping
-    public List<UserDto> getAllUsers(){
+    public List<UserDtoRequest> getAllUsers(){
         return userService.getAllUsers();
     }
 
-    @PostMapping
-    public ResponseEntity<UserDto> saveUser(@Valid @RequestBody UserDto userDto){
-        UserDto user = userService.saveUser(userDto);
-        return ResponseEntity.status(201).body(user);
+    @GetMapping(value = "/amount")
+    public Long getAmountOfUsers(){
+        return userService.getAmountOfUsers();
     }
 
-    @PutMapping(value = "/{fileId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable(value = "fileId") Long fileId, UserDto userDto){
-        UserDto userResponse = userService.updateUser(fileId, userDto);
+    /*
+    @PostMapping
+    public ResponseEntity<UserDtoRequest> saveUser(@Valid @RequestBody UserDtoRequest userDtoRequest){
+        UserDtoRequest user = userService.saveUser(userDtoRequest);
+        return ResponseEntity.status(201).body(user);
+    }
+     */
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDtoRequest> updateUser(@PathVariable(value = "id") Long fileId, UserDtoRequest userDto){
+        UserDtoRequest userResponse = userService.updateUser(fileId, userDto);
         return ResponseEntity.status(202).body(userResponse);
     }
 
-
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(value = "id") Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok(null);
+    }
 }

@@ -31,5 +31,6 @@ public class CvFile { // this is for mediumblob datatype to store the pdf files
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
+
     }
 }
